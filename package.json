@@ -1,6 +1,6 @@
 {
   "name": "curiosity-frontend",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Build testing",
   "author": "cdcabrera",
   "license": "MIT",
@@ -45,8 +45,7 @@
     "test:dev": "eslint ./src; jest --watch",
     "test:lint": "eslint ./src"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "babel-eslint": "^10.1.0",
     "eslint": "^6.8.0",
