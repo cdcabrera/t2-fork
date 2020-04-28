@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`t2 should export an object: output 1`] = `
+Object {
+  "str": "testing",
+}
+`;

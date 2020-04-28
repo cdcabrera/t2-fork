@@ -1,0 +1,61 @@
+{
+  "parser": "babel-eslint",
+  "env": {
+    "es6": true,
+    "jest": true,
+    "node": true
+  },
+  "plugins": [
+    "jest",
+    "node",
+    "prettier"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:jest/recommended",
+    "plugin:node/recommended",
+    "prettier"
+  ],
+  "parserOptions":{
+    "ecmaVersion": 2018
+  },
+  "rules": {
+    "arrow-parens": [
+      "error",
+      "as-needed"
+    ],
+    "comma-dangle": 0,
+    "max-len": [
+      "error",
+      {
+        "code": 240,
+        "ignoreUrls": true
+      }
+    ],
+    "no-console": 0,
+    "no-debugger": 1,
+    "no-plusplus": 0,
+    "node/no-unsupported-features/es-syntax": 1,
+    "node/shebang": 0,
+    "node/no-unpublished-bin": 0,
+    "padded-blocks": 0,
+    "prettier/prettier": [
+      "error",
+      {
+        "arrowParens": "avoid",
+        "singleQuote": true,
+        "trailingComma": "none",
+        "printWidth": 100
+      }
+    ],
+    "space-before-function-paren": 0,
+    "valid-jsdoc": [
+      1,
+      {
+        "requireParamDescription": false,
+        "requireReturnDescription": false,
+        "requireReturn": false
+      }
+    ]
+  }
+}
