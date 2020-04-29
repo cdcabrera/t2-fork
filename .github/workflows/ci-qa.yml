@@ -20,7 +20,7 @@ jobs:
         node-version: [10.x]
     env:
       BASE_BRANCH_AGAIN: ${{ github.base_ref }}
-    if: $BASE_BRANCH_AGAIN == 'qa' || $BASE_BRANCH_AGAIN == 'ci'
+    if: ${{ $BASE_BRANCH_AGAIN == 'qa' || $BASE_BRANCH_AGAIN == 'ci' }}
     steps:
       - run: echo "testing $BASE_BRANCH"
       - uses: actions/checkout@v2
