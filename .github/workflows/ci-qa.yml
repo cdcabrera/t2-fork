@@ -1,0 +1,33 @@
+name: CI/QA
+on:
+  pull_request:
+    branches:
+      - ci
+      - qa
+jobs:
+  integration:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [10.x]
+    env:
+      BASE_BRANCH: ${{ github.base_ref }}
+    if: $BASE_BRANCH == 'qa' || $BASE_BRANCH == 'ci'
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: yarn install
+      - name: Testing
+        run: yarn test
+      - name: Confirm integration
+        if: ${{ success() }}
+        run: yarn build
+      - name: Approve Pull Request
+        if: ${{ success() }}
+        uses: juliangruber/approve-pull-request-action@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          number: 1

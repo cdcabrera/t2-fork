@@ -9,7 +9,7 @@ build()
   local DIR=$2
   mkdir -p $DIR
   printf "${YELLOW}Building ...${NOCOLOR}"
-  cp -R  $SRC $DIR
+  cp $SRC/* $DIR 2>/dev/null
   printf "${GREEN}SUCCESS${NOCOLOR}\n"
 }
 #

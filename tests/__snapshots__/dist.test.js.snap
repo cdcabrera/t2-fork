@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Build distribution should match a specific file output 1`] = `
+Array [
+  "",
+  "./build/index.js",
+  "./build/version.txt",
+]
+`;
