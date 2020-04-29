@@ -1,11 +1,9 @@
 name: CI/QA
 on:
   pull_request:
-    branches:
-      - ci
-      - qa
+    branches: [ ci, qa ]
 jobs:
-  integration:
+  debug:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -14,9 +12,19 @@ jobs:
       BASE_BRANCH: ${{ github.base_ref }}
     steps:
       - run: echo "testing $BASE_BRANCH"
+
+  integration:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [10.x]
+    env:
+      BASE_BRANCH: ${{ github.base_ref }}
+    if: $BASE_BRANCH == 'qa' || $BASE_BRANCH == 'ci'
+    steps:
+      - run: echo "testing $BASE_BRANCH"
       - uses: actions/checkout@v2
       - name: Setup Node.js ${{ matrix.node-version }}
-        if: $BASE_BRANCH == 'qa' || $BASE_BRANCH == 'ci'
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
