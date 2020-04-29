@@ -34,9 +34,17 @@ jobs:
       - name: Confirm integration
         if: ${{ success() }}
         run: yarn build
-      - name: Approve Pull Request
+      - name: Approve pull request
         if: ${{ success() }}
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
         uses: juliangruber/approve-pull-request-action@v1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          number: 1
+          number: ${{ $PR_NUMBER }}
+      - name: Apply label
+        if: ${{ failure() || cancelled() }}
+        uses: actions/labeler@v2
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+
