@@ -18,12 +18,8 @@ jobs:
     strategy:
       matrix:
         node-version: [10.x]
-
+    if: ${{ github.base_ref == 'qa' || github.base_ref == 'ci' }}
     steps:
-      - name: Confirm pull request branches
-        env:
-          BASE_BRANCH_AGAIN: ${{ github.base_ref }}
-        if: ${{ $BASE_BRANCH_AGAIN == 'qa' || $BASE_BRANCH_AGAIN == 'ci' }}
       - run: echo "testing $BASE_BRANCH"
       - uses: actions/checkout@v2
       - name: Setup Node.js ${{ matrix.node-version }}
