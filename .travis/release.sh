@@ -42,8 +42,8 @@
   if [[ "${TRAVIS_BRANCH}" = "${BRANCH}" ]]; then
     set +x
     openssl aes-256-cbc \
-            -K `env | grep 'encrypted_.2*_key' | cut -f2 -d '='` \
-            -iv `env | grep 'encrypted_.2*_iv' | cut -f2 -d '='` \
+            -K `env | grep 'encrypted_2.*_key' | cut -f2 -d '='` \
+            -iv `env | grep 'encrypted_2.*_iv' | cut -f2 -d '='` \
             -in .travis/release_key.enc -out .travis/release_key -d
     set -x
 
