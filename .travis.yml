@@ -10,14 +10,14 @@ jobs:
       script: yarn test:ci
       after_success: codecov
     - stage: Release and Deploy
-      script: sh ./.travis/release.sh && yarn build && yarn version:check
+      script: yarn release && yarn build && yarn version:check
     - stage: Rebase
-      script: sh ./.travis/rebase.sh && yarn version:check
+      script: yarn release:rebase && yarn version:check
 env:
   global:
     - REPO="git@github.com:cdcabrera/t2"
     - AUTO_DEPLOY=true
-    - AUTO_REBASE=stage,qa,ci,fake
+    - AUTO_REBASE="stage,qa,ci,fake"
     - BRANCH="master"
     - EMAIL="cabrera.code@gmail.com"
     - USER="T2 CI"

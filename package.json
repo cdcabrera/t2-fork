@@ -40,6 +40,7 @@
     "build:files": "sh ./scripts/build.sh",
     "release": "bash ./.travis/release.sh",
     "release:increment": "standard-version",
+    "release:rebase": "sh ./.travis/rebase.sh",
     "test": "run-s -l test:lint test:ci",
     "test:ci": "export CI=true; jest --collectCoverage",
     "test:clearCache": "jest --clearCache",
