@@ -38,7 +38,8 @@
   fi
 
   # filter process for specific branch and CI stage
-  if [[ "${TRAVIS_BRANCH}" = "${BRANCH}" ]] && [[ $TRAVIS_BUILD_STAGE_NAME == *"Build"* ]]; then
+  #if [[ "${TRAVIS_BRANCH}" = "${BRANCH}" ]] && [[ $TRAVIS_BUILD_STAGE_NAME == *"Build"* ]]; then
+  if [[ "${TRAVIS_BRANCH}" = "${BRANCH}" ]]; then
     set +x
     openssl aes-256-cbc \
             -K `env | grep 'encrypted_.*_key' | cut -f2 -d '='` \
