@@ -65,18 +65,6 @@
 
     echo -e "${GREEN}COMPLETED release${NOCOLOR}"
 
-    if [ "${AUTO_REBASE}" = "true" ]; then
-      git checkout stage
-      git rebase ${BRANCH}
-      git push -f origin stage --quiet
-      git checkout qa
-      git rebase ${BRANCH}
-      git push -f origin qa --quiet
-      git checkout ci
-      git rebase ${BRANCH}
-      git push -f origin ci --quiet
-    fi
-
     exit 0;
   fi
 
