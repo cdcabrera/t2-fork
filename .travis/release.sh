@@ -10,7 +10,7 @@
   GREEN="\e[32m"
   YELLOW="\e[33m"
   NOCOLOR="\e[39m"
-  DIFF_CHECK=$(git diff | grep '^+' | grep -v '+++' | grep -v 'Last updated' | wc -l)
+  DIFF_CHECK=$(git diff | grep '^+' | grep -v '+++' | wc -l)
 
   # filter out pull requests
   if [ "${TRAVIS_PULL_REQUEST}" != "false" ]; then
