@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - "10"
+  - "12"
 cache: yarn
 jobs:
   include:
@@ -9,10 +9,8 @@ jobs:
     - before_script: yarn global add codecov
       script: yarn test:ci
       after_success: codecov
-    - stage: Release and Deploy
-      script: yarn release && yarn build && yarn version:check
-    - stage: Rebase
-      script: yarn release:rebase && yarn version:check
+    - stage: Deploy
+      script: yarn build
 env:
   global:
     - REPO="git@github.com:cdcabrera/t2"

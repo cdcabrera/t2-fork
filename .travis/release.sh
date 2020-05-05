@@ -57,9 +57,15 @@
 
     echo -e "${YELLOW}PUSHING release...${NOCOLOR}"
 
-    git checkout ${BRANCH}
+    #cat package.json
+    ls
+    #git fetch ssh-origin ${BRANCH}
     git fetch --tags
-    yarn release:increment
+    git checkout ${BRANCH}
+    #standard-version --dry-run
+    yarn release --dry-run
+
+    wait
     git push --follow-tags ssh-origin ${BRANCH}
 
     echo -e "${GREEN}COMPLETED release${NOCOLOR}"
