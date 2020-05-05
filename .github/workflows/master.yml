@@ -15,7 +15,7 @@ jobs:
           git switch -c master
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
           git config user.name "$GITHUB_ACTOR"
-
+      - run: echo "testing $GITHUB_ACTOR"
       - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
