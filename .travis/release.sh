@@ -10,7 +10,7 @@
   GREEN="\e[32m"
   YELLOW="\e[33m"
   NOCOLOR="\e[39m"
-  DIFF_CHECK=$(git diff | grep '^+' | grep -v '+++' | wc -l)
+  #DIFF_CHECK=$(git diff | grep '^+' | grep -v '+++' | wc -l)
 
   # filter out pull requests
   if [ "${TRAVIS_PULL_REQUEST}" != "false" ]; then
@@ -25,11 +25,11 @@
   fi
 
   # if auto deploy active filter out timestamp only updates
-  if [ "${AUTO_DEPLOY}" = "true" ] && [[ "${DIFF_CHECK}" = "0" ]]; then
-    echo -e "${YELLOW}$(git diff --compact-summary){$NOCOLOR}"
-    echo -e "${YELLOW}Exiting early, no significant changes${NOCOLOR}"
-    exit 0;
-  fi
+  #if [ "${AUTO_DEPLOY}" = "true" ] && [[ "${DIFF_CHECK}" = "0" ]]; then
+  #  echo -e "${YELLOW}$(git diff --compact-summary){$NOCOLOR}"
+  #  echo -e "${YELLOW}Exiting early, no significant changes${NOCOLOR}"
+  #  exit 0;
+  #fi
 
   # filter out deployment tokens when active
   if [ "${AUTO_DEPLOY}" != "true" ] && [[ ! "$TRAVIS_COMMIT_MESSAGE" =~ "[RELEASE]" ]]; then
