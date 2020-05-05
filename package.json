@@ -32,14 +32,14 @@
     ]
   },
   "standard-version": {
-    "skip": {
-      "tag": true
-    }
+    "skip": {}
   },
   "scripts": {
+    "version:check": "node -p 'require(`./package.json`).version'",
     "build": "run-s -l build:files test:integration",
     "build:files": "sh ./scripts/build.sh",
-    "release": "standard-version",
+    "release": "bash ./.travis/release.sh",
+    "release:increment": "standard-version",
     "test": "run-s -l test:lint test:ci",
     "test:ci": "export CI=true; jest --collectCoverage",
     "test:clearCache": "jest --clearCache",

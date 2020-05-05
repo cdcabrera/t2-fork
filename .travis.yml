@@ -9,3 +9,14 @@ jobs:
     - before_script: yarn global add codecov
       script: yarn test:ci
       after_success: codecov
+    - stage: Release and Deploy
+      script: yarn release && yarn build && yarn version:check
+      after_success: yarn version:check
+env:
+  global:
+    - REPO="git@github.com:cdcabrera/t2"
+    - AUTO_DEPLOY=true
+    - AUTO_REBASE=true
+    - BRANCH="master"
+    - EMAIL="cabrera.code@gmail.com"
+    - USER="T2 CI"
