@@ -1,6 +1,7 @@
 name: Master Release
 on:
-  push:
+  pull_request:
+    types: [ closed ]
     branches: [ master ]
 jobs:
   release:
@@ -8,11 +9,13 @@ jobs:
     strategy:
       matrix:
         node-version: [12.x]
+    if: github.event.pull_request.merged == 'true'
     steps:
       - uses: actions/checkout@v1
       - name: Setup GIT
         run: |
           git switch -c master
+          git log -2
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
           git config user.name "$GITHUB_ACTOR"
       - run: echo "testing $GITHUB_ACTOR"
