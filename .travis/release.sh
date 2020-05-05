@@ -61,7 +61,7 @@
     git fetch --tags
     yarn release:increment
 
-    git push ssh-origin ${BRANCH} --follow-tags
+    git push --follow-tags ssh-origin ${BRANCH}
 
     echo -e "${GREEN}COMPLETED release${NOCOLOR}"
 
