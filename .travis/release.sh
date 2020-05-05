@@ -51,20 +51,18 @@
     eval `ssh-agent -s`
     ssh-add .travis/release_key
 
-    echo -e "${YELLOW}PUSHING release...${NOCOLOR}"
-
     git config --global user.name ${USER}
     git config --global user.email ${EMAIL}
     git remote add ssh-origin ${REPO}
+
+    echo -e "${YELLOW}PUSHING release...${NOCOLOR}"
+
     git checkout ${BRANCH}
-
     git fetch --tags
-    yarn release:increment --dry-run
-
-    #git push --follow-tags ssh-origin ${BRANCH}
+    yarn release:increment
+    git push --follow-tags ssh-origin ${BRANCH}
 
     echo -e "${GREEN}COMPLETED release${NOCOLOR}"
-
     exit 0;
   fi
 
