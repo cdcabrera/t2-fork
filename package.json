@@ -1,6 +1,6 @@
 {
   "name": "curiosity-frontend",
-  "version": "0.1.1",
+  "version": "0.1.0",
   "description": "Build testing",
   "author": "cdcabrera",
   "license": "MIT",
@@ -32,7 +32,12 @@
     ]
   },
   "standard-version": {
-    "skip": {}
+    "skip": {
+      "bump": false,
+      "changelog": false,
+      "commit": false,
+      "tag": false
+    }
   },
   "scripts": {
     "version:check": "node -p 'require(`./package.json`).version'",

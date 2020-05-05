@@ -59,9 +59,9 @@
     git checkout ${BRANCH}
 
     git fetch --tags
-    yarn release:increment
+    yarn release:increment --dry-run
 
-    git push --follow-tags ssh-origin ${BRANCH}
+    #git push --follow-tags ssh-origin ${BRANCH}
 
     echo -e "${GREEN}COMPLETED release${NOCOLOR}"
 
