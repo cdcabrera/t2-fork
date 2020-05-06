@@ -17,7 +17,7 @@ jobs:
       - run: yarn install
       - name: Setup PR Content
         run: |
-          echo ::set-env name=PR_BODY::$(yarn release --dry-run)
+          printf "%s" ::set-env name=PR_BODY::$(yarn release --dry-run)
       - name: pull-request
         uses: repo-sync/pull-request@v2
         with:
