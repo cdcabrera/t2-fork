@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.1](https://github.com/cdcabrera/t2/compare/v0.1.0...v0.1.1) (2020-05-06)
+
+
+### Bug Fixes
+
+* **build:** release ([7452d87](https://github.com/cdcabrera/t2/commit/7452d87))
+* **build:** release ([b433d09](https://github.com/cdcabrera/t2/commit/b433d09))
+* **check:** user ([1dcefe4](https://github.com/cdcabrera/t2/commit/1dcefe4))
+* **workflow:** test ([ea82e2c](https://github.com/cdcabrera/t2/commit/ea82e2c))
+* **workflow:** test ([eba2cae](https://github.com/cdcabrera/t2/commit/eba2cae))
+
+
+
 ## 0.1.0 (2020-05-05)
 
 
