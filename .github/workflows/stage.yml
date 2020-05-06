@@ -18,12 +18,11 @@ jobs:
       - name: Setup PR Content
         run: |
           echo ::set-env name=PR_BODY::$(yarn release --dry-run)
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v2
+      - name: pull-request
+        uses: repo-sync/pull-request@v2
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          draft: true
-          title: Production increment
-          body: ${{env.PR_BODY}}
-          branch: master
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          pr_title: Production increment
+          pr_body: ${{env.PR_BODY}}
+          pr_draft: true
 
