@@ -17,12 +17,12 @@ jobs:
       - run: yarn install
       - name: Setup PR Content
         run: |
-          printf "%s" ::set-env name=PR_BODY::$(yarn release --dry-run)
+          echo ::set-env name=PR_BODY::"$(yarn release --dry-run)"
       - name: pull-request
         uses: repo-sync/pull-request@v2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           pr_title: Production increment
-          pr_body: ${{env.PR_BODY}}
+          pr_body: "${{ env.PR_BODY }}"
           pr_draft: true
 
