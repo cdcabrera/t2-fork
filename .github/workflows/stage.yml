@@ -24,5 +24,5 @@ jobs:
           draft: true
           title: Production increment
           body: ${{env.PR_BODY}}
-          branch: stage
+          branch: master
 
