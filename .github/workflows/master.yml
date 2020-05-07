@@ -10,21 +10,27 @@ jobs:
         node-version: [12.x]
     steps:
       - uses: actions/checkout@v1
-      - name: Setup GIT
+      - name: Checking last commit
         run: |
           git switch -c master
-          git log -2
+          echo ::set-env name=LAST_COMMIT::$(git log -1 --oneline")
+      - name: Setup GIT
+        if:  ${{ !startsWith( env.LAST_COMMIT, "chore(" )  }}
+        run: |
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
           git config user.name "$GITHUB_ACTOR"
-      - run: echo "testing $GITHUB_ACTOR"
       - name: Setup Node.js ${{ matrix.node-version }}
+        if: ${{ success() }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: yarn install
-      - name: Version
-        run: yarn release
-      - name: Push GIT
+      - name: Run release
+        if: ${{ success() }}
+        run: |
+          yarn install
+          yarn release
+      - name: Push release
+        if: ${{ success() }}
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         run: |
