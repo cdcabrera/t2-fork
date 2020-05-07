@@ -3,7 +3,7 @@ on:
   push:
     branches: [ stage ]
 jobs:
-  release:
+  Pull Request:
     runs-on: ubuntu-latest
     strategy:
       matrix:
