@@ -13,7 +13,7 @@ jobs:
       - name: Checking last commit
         run: |
           git switch -c master
-          echo ::set-env name=LAST_COMMIT::$(git log -1 --oneline")
+          echo ::set-env name=LAST_COMMIT::$(git log -1 --oneline)
       - name: Setup GIT
         if:  ${{ !startsWith( env.LAST_COMMIT, 'chore(' )  }}
         run: |
