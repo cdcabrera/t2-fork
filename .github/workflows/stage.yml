@@ -17,7 +17,11 @@ jobs:
       - run: yarn install
       - name: Setup PR Content
         run: |
-          echo ::set-env name=PR_BODY::"$(yarn release --dry-run)"
+          body="$(yarn release --dry-run)"
+          body="${body//'%'/'%25'}"
+          body="${body//$'\n'/'%0A'}"
+          body="${body//$'\r'/'%0D'}"
+          echo "::set-env name=PR_BODY::$body"
       - name: pull-request
         uses: repo-sync/pull-request@v2
         with:
@@ -25,4 +29,3 @@ jobs:
           pr_title: Production increment
           pr_body: "${{ env.PR_BODY }}"
           pr_draft: true
-
