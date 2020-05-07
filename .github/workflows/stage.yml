@@ -23,18 +23,21 @@ jobs:
       - run: yarn install
       - name: Setup PR Content
         run: |
-          BODY_TEST=$(node -pe "encodeURI(require('child_process').execSync('yarn release --dry-run').toString().split('---')[1].trim())")
-          TITLE_TEST=$(node -pe "encodeURI(require('child_process').execSync('yarn release --dry-run').toString().split('---')[1].trim().split('\n')[0].split('[')[1].split(']')[0])")
+          BODY_TEST=$(node -pe "encodeURI((require('child_process').execSync('yarn release --dry-run')||'').toString().split('---')[1].trim())")
+          TITLE_TEST=$(node -pe "encodeURI((require('child_process').execSync('yarn release --dry-run')||'').toString().split('---')[1].trim().split('\n')[0].split('[')[1].split(']')[0])")
 
-          echo $BODY_TEST
-          echo $TITLE_TEST
+          echo "$BODY_TEST"
+          echo "$TITLE_TEST"
           echo "::set-env name=PR_TITLE::$TITLE_TEST"
 
           body="$(yarn release --dry-run)"
           body="${body//'%'/'%25'}"
           body="${body//$'\n'/'%0A'}"
           body="${body//$'\r'/'%0D'}"
+          echo "$body"
+
           echo "::set-env name=PR_BODY::$BODY_TEST"
+
       - name: pull request
         uses: repo-sync/pull-request@v2
         with:
