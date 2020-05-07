@@ -14,9 +14,8 @@ jobs:
         run: |
           git switch -c master
           echo ::set-env name=LAST_COMMIT::$(git log -1 --oneline)
-          echo $LAST_COMMIT
       - name: Setup GIT
-        if:  ${{ !startsWith( env.LAST_COMMIT, 'chore(' )  }}
+        if:  ${{ !contains( env.LAST_COMMIT, 'chore(' )  }}
         run: |
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
           git config user.name "$GITHUB_ACTOR"
@@ -25,10 +24,22 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Run release
+      - name: Install yarn
         if: ${{ success() }}
         run: |
           yarn install
+      - name: Lint and test
+        if: ${{ success() }}
+        run: |
+          yarn test
+      - name: Set release confirmation
+        if: ${{ success() }}
+        run: |
+          CONFIRM=$(node -pe "require('child_process').execSync('yarn release --dry-run').toString().split('---')[1].trim().split('\n').length >= 3")
+          echo ::set-env name=CONFIRM_RELEASE::$CONFIRM
+      - name: Run release
+        if: ${{ contains( env.CONFIRM_RELEASE, 'true') }}
+        run: |
           yarn release
       - name: Push release
         if: ${{ success() }}
