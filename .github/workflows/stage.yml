@@ -24,7 +24,7 @@ jobs:
       - name: Setup PR Content
         run: |
           BODY_TEST=$(node -pe "encodeURI(require('child_process').execSync('yarn release --dry-run').toString().split('---')[1].trim())")
-          TITLE_TEST=$(node -pe "encodeURI(require('child_process').execSync('yarn release --dry-run').toString().split('---')[1].trim().split('\n')[0]")
+          TITLE_TEST=$(node -pe "encodeURI(require('child_process').execSync('yarn release --dry-run').toString().split('---')[1].trim().split('\n')[0])")
 
           echo "$BODY_TEST"
           echo "$TITLE_TEST"
