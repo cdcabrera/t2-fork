@@ -15,7 +15,7 @@ jobs:
           git switch -c master
           echo ::set-env name=LAST_COMMIT::$(git log -1 --oneline")
       - name: Setup GIT
-        if:  ${{ !startsWith( env.LAST_COMMIT, "chore(" )  }}
+        if:  ${{ !startsWith( env.LAST_COMMIT, 'chore(' )  }}
         run: |
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
           git config user.name "$GITHUB_ACTOR"
