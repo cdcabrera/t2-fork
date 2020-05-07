@@ -10,6 +10,11 @@ jobs:
         node-version: [12.x]
     steps:
       - uses: actions/checkout@v2
+      - name: Setup GIT
+        run: |
+          git fetch origin master
+          git switch -c stage
+          git rebase master
       - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
@@ -17,15 +22,22 @@ jobs:
       - run: yarn install
       - name: Setup PR Content
         run: |
+          BODY_TEST=$(node -pe "encodeURI(execSync('yarn release --dry-run').toString().split('---')[1].trim())")
+          TITLE_TEST=$(node -pe "encodeURI(execSync('yarn release --dry-run').toString().split('---')[1].trim().split('\n')[0].split('[')[1].split(']')[0])")
+
+          echo $BODY_TEST
+          echo $TITLE_TEST
+          echo "::set-env name=PR_TITLE::$TITLE_TEST"
+
           body="$(yarn release --dry-run)"
           body="${body//'%'/'%25'}"
           body="${body//$'\n'/'%0A'}"
           body="${body//$'\r'/'%0D'}"
-          echo "::set-env name=PR_BODY::$body"
+          echo "::set-env name=PR_BODY::$BODY_TEST"
       - name: pull request
         uses: repo-sync/pull-request@v2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          pr_title: Production increment
+          pr_title: Production increment v${{ env.PR_TITLE }}
           pr_body: "${{ env.PR_BODY }}"
           pr_draft: true
