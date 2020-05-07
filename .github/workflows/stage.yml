@@ -12,9 +12,10 @@ jobs:
       - uses: actions/checkout@v2
       - name: Setup GIT
         run: |
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+          git config user.name "$GITHUB_ACTOR"
           git fetch origin master
-          git switch -c stage
-          git rebase master
+          git rebase origin/master
       - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
@@ -22,8 +23,8 @@ jobs:
       - run: yarn install
       - name: Setup PR Content
         run: |
-          BODY_TEST=$(node -pe "encodeURI(execSync('yarn release --dry-run').toString().split('---')[1].trim())")
-          TITLE_TEST=$(node -pe "encodeURI(execSync('yarn release --dry-run').toString().split('---')[1].trim().split('\n')[0].split('[')[1].split(']')[0])")
+          BODY_TEST=$(node -pe "encodeURI(require('child_process').execSync('yarn release --dry-run').toString().split('---')[1].trim())")
+          TITLE_TEST=$(node -pe "encodeURI(require('child_process').execSync('yarn release --dry-run').toString().split('---')[1].trim().split('\n')[0].split('[')[1].split(']')[0])")
 
           echo $BODY_TEST
           echo $TITLE_TEST
