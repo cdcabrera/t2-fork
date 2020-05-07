@@ -13,7 +13,7 @@ jobs:
       - name: Checking last commit
         run: |
           git switch -c master
-          COMMIT=$(node -pe "/chore\(/.test(require('child_process').execSync('git log -1 --oneline').toString())")
+          COMMIT=$(node -pe "/chore\(release\)/.test(require('child_process').execSync('git log -1 --oneline').toString())")
           echo ::set-env name=CONFIRM_COMMIT::$COMMIT
       - name: Setup GIT
         if:  ${{ !contains(env.CONFIRM_COMMIT, 'true')  }}
@@ -25,7 +25,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Install yarn
+      - name: Install Node.js packages
         if:  ${{ !contains(env.CONFIRM_COMMIT, 'true')  }}
         run: |
           yarn install

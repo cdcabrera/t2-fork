@@ -14,7 +14,7 @@ jobs:
         run: |
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
           git config user.name "$GITHUB_ACTOR"
-      - name: Rebase GIT
+      - name: Rebase branch
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         run: |
@@ -26,17 +26,25 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: yarn install
-      - name: Setup PR Content
+      - name: Install Node.js packages
+        run: yarn install
+      - name: Set release PR confirmation
+        if:  ${{ !contains(env.CONFIRM_COMMIT, 'true')  }}
+        run: |
+          RELEASE=$(node -pe "require('child_process').execSync('yarn release --dry-run').toString().split('---')[1].trim().split('\n').length >= 3")
+          echo ::set-env name=CONFIRM_RELEASE::$RELEASE
+      - name: Set release PR content
+        if: ${{ contains( env.CONFIRM_RELEASE, 'true') }}
         run: |
           BODY=$(node -pe "require('child_process').execSync('yarn release --dry-run').toString().split('---')[1].replace(/%/g,'%25').replace(/\n/g,'%0A').trim()")
-          TITLE=$(node -pe "require('child_process').execSync('yarn release --dry-run').toString().split('---')[1].trim().split('\n')[0]")
+          TITLE=$(node -pe "require('child_process').execSync('yarn release --dry-run').toString().split('---')[1].trim().split('\n')[0].split(/\[|\]/g)")
           echo "::set-env name=PR_TITLE::$TITLE"
           echo "::set-env name=PR_BODY::$BODY"
-      - name: pull request
+      - name: Setup PR
+        if: ${{ contains( env.CONFIRM_RELEASE, 'true') }}
         uses: repo-sync/pull-request@v2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           pr_title: Production increment ${{ env.PR_TITLE }}
-          pr_body: ${{ env.PR_BODY }}
+          pr_body: "${{ env.PR_BODY }}"
           pr_draft: true
