@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.2.0](https://github.com/cdcabrera/t2/compare/v0.1.3...v0.2.0) (2020-05-07)
+
+
+### Features
+
+* **readme:** docs ([e7417d9](https://github.com/cdcabrera/t2/commit/e7417d9))
+
+
+
 ### [0.1.3](https://github.com/cdcabrera/t2/compare/v0.1.2...v0.1.3) (2020-05-06)
 
 
