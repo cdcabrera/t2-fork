@@ -13,36 +13,37 @@ jobs:
       - name: Checking last commit
         run: |
           git switch -c master
-          echo ::set-env name=LAST_COMMIT::$(git log -1 --oneline)
+          COMMIT=$(node -pe "/chore\(/.test(require('child_process').execSync('git log -1 --oneline').toString())")
+          echo ::set-env name=CONFIRM_COMMIT::$COMMIT
       - name: Setup GIT
-        if:  ${{ !contains( env.LAST_COMMIT, 'chore(' )  }}
+        if:  ${{ !contains(env.CONFIRM_COMMIT, 'true')  }}
         run: |
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
           git config user.name "$GITHUB_ACTOR"
       - name: Setup Node.js ${{ matrix.node-version }}
-        if: ${{ success() }}
+        if:  ${{ !contains(env.CONFIRM_COMMIT, 'true')  }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install yarn
-        if: ${{ success() }}
+        if:  ${{ !contains(env.CONFIRM_COMMIT, 'true')  }}
         run: |
           yarn install
       - name: Lint and test
-        if: ${{ success() }}
+        if:  ${{ !contains(env.CONFIRM_COMMIT, 'true')  }}
         run: |
           yarn test
       - name: Set release confirmation
-        if: ${{ success() }}
+        if:  ${{ !contains(env.CONFIRM_COMMIT, 'true')  }}
         run: |
-          CONFIRM=$(node -pe "require('child_process').execSync('yarn release --dry-run').toString().split('---')[1].trim().split('\n').length >= 3")
-          echo ::set-env name=CONFIRM_RELEASE::$CONFIRM
+          RELEASE=$(node -pe "require('child_process').execSync('yarn release --dry-run').toString().split('---')[1].trim().split('\n').length >= 3")
+          echo ::set-env name=CONFIRM_RELEASE::$RELEASE
       - name: Run release
         if: ${{ contains( env.CONFIRM_RELEASE, 'true') }}
         run: |
           yarn release
       - name: Push release
-        if: ${{ success() }}
+        if: ${{ contains( env.CONFIRM_RELEASE, 'true') }}
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         run: |
