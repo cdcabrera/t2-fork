@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.5](https://github.com/cdcabrera/t2/compare/v0.2.4...v0.2.5) (2020-05-07)
+
+
+### Bug Fixes
+
+* **add push:** stage ([272438e](https://github.com/cdcabrera/t2/commit/272438e))
+* **build:** master and stage workflows ([646fbd9](https://github.com/cdcabrera/t2/commit/646fbd9))
+* **build:** pr setup ([a351e2f](https://github.com/cdcabrera/t2/commit/a351e2f))
+* **fetch:** stage workflow ([538d5f2](https://github.com/cdcabrera/t2/commit/538d5f2))
+* **frust:** ci ([2e153bf](https://github.com/cdcabrera/t2/commit/2e153bf))
+* **it:** now ([7c9e4ec](https://github.com/cdcabrera/t2/commit/7c9e4ec))
+* **pr:** body ([57561fc](https://github.com/cdcabrera/t2/commit/57561fc))
+* **stage:** checkout ([8b051ee](https://github.com/cdcabrera/t2/commit/8b051ee))
+* **stage:** multiline pr body ([400f7a5](https://github.com/cdcabrera/t2/commit/400f7a5))
+* **stage:** pr body fix ([1949083](https://github.com/cdcabrera/t2/commit/1949083))
+* **stage:** step name ([0330c7c](https://github.com/cdcabrera/t2/commit/0330c7c))
+* **stage:** workflow ([f848295](https://github.com/cdcabrera/t2/commit/f848295))
+* **stage:** workflow ([092f073](https://github.com/cdcabrera/t2/commit/092f073))
+* **stage:** workflow ([72b1573](https://github.com/cdcabrera/t2/commit/72b1573))
+* **stage:** workflow job title ([215ee09](https://github.com/cdcabrera/t2/commit/215ee09))
+* **stage:** workflow job title ([81e239d](https://github.com/cdcabrera/t2/commit/81e239d))
+* **stage:** workflow pr title check, node test ([1df6149](https://github.com/cdcabrera/t2/commit/1df6149))
+
+
+
 ### [0.2.4](https://github.com/cdcabrera/t2/compare/v0.2.3...v0.2.4) (2020-05-07)
 
 
