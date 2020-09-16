@@ -1,4 +1,4 @@
-name: Pull Requests
+name: Pull requests
 on:
   pull_request:
     branches: [ master, prod, stage, qa**, ci** ]
@@ -6,7 +6,7 @@ env:
   BRANCH: ${{ github.base_ref }}
 
 jobs:
-  integration:
+  Integration_checks:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -24,13 +24,15 @@ jobs:
       - name: Code coverage
         if: ${{ success() }}
         uses: codecov/codecov-action@v1
+      - name: Setup beta integration
+        if: ${{ success() }}
+        run: echo ::set-env name=BUILD_STAGE::Beta
       - name: Confirm beta integration
         if: ${{ success() }}
-        run: |
-          echo ::set-env name=BUILD_STAGE::Beta
-          yarn build
+        run: yarn build
+      - name: Setup stable integration
+        if: ${{ success() }}
+        run: echo ::set-env name=BUILD_STAGE::Stable
       - name: Confirm stable integration
         if: ${{ success() }}
-        run: |
-          echo ::set-env name=BUILD_STAGE::Stable
-          yarn build
+        run: yarn build
