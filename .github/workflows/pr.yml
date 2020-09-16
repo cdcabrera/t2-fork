@@ -26,13 +26,11 @@ jobs:
         uses: codecov/codecov-action@v1
       - name: Confirm beta integration
         if: ${{ success() }}
-        run: yarn build
         with:
-          BRANCH: ${{ env.BRANCH }}
           BUILD_STAGE: Beta
+        run: yarn build
       - name: Confirm stable integration
         if: ${{ success() }}
-        run: yarn build
         with:
-          BRANCH: ${{ env.BRANCH }}
           BUILD_STAGE: Stable
+        run: yarn build
