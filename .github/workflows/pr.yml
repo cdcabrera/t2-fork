@@ -26,11 +26,11 @@ jobs:
         uses: codecov/codecov-action@v1
       - name: Confirm beta integration
         if: ${{ success() }}
-        with:
-          BUILD_STAGE: Beta
-        run: yarn build
+        run: |
+          echo ::set-env name=BUILD_STAGE::Beta
+          yarn build
       - name: Confirm stable integration
         if: ${{ success() }}
-        with:
-          BUILD_STAGE: Stable
-        run: yarn build
+        run: |
+          echo ::set-env name=BUILD_STAGE::Stable
+          yarn build
