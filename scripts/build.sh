@@ -7,8 +7,10 @@ build()
 {
   local SRC=$1
   local DIR=$2
+  local LOCAL_BRANCH=$3
+  local LOCAL_STAGE=$4
   mkdir -p $DIR
-  printf "${YELLOW}Building ...${NOCOLOR}"
+  printf "${YELLOW}Building ... branch=${LOCAL_BRANCH}, stage=${LOCAL_STAGE} ${NOCOLOR}"
   cp $SRC/* $DIR 2>/dev/null
   printf "${GREEN}SUCCESS${NOCOLOR}\n"
 }
@@ -53,5 +55,5 @@ clean()
 
   clean $BUILD_DIR
   version $BUILD_DIR
-  build $SRC_DIR $BUILD_DIR
+  build $SRC_DIR $BUILD_DIR "${BRANCH:-local}" "${BUILD_STAGE:-Local Deploy}"
 }
