@@ -1,0 +1,37 @@
+name: CI/QA
+on:
+  pull_request:
+    branches: [ master, prod, stage, qa**, ci** ]
+env:
+  BRANCH: ${{ github.base_ref }}
+
+jobs:
+  integration:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [10.x, 12.x]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: yarn install
+      - name: Test
+        run: yarn test
+      - name: Coverage
+        if: ${{ success() }}
+        uses: codecov/codecov-action@v1
+      - name: Confirm beta integration
+        if: ${{ success() }}
+        with:
+          BRANCH: ${{ env.BRANCH }}
+          BUILD_STAGE: Beta
+        run: yarn build
+      - name: Confirm stable integration
+        if: ${{ success() }}
+        with:
+          BRANCH: ${{ env.BRANCH }}
+          BUILD_STAGE: Stable
+        run: yarn build
