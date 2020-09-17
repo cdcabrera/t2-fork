@@ -1,4 +1,4 @@
-name: Pull request, branch:${{ github.base_ref }}
+name: Pull request
 on:
   pull_request:
     branches: [ master, prod, stage, qa**, ci** ]
@@ -6,7 +6,7 @@ env:
   BRANCH: ${{ github.base_ref }}
 
 jobs:
-  Integration-checks:
+  "Integration checks":
     runs-on: ubuntu-latest
     strategy:
       matrix:
