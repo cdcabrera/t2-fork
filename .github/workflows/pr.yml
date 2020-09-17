@@ -1,4 +1,4 @@
-name: Pull requests
+name: Pull request, branch:${{ github.base_ref }}
 on:
   pull_request:
     branches: [ master, prod, stage, qa**, ci** ]
