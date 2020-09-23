@@ -39,7 +39,7 @@ jobs:
       - name: Set artifact
         if: ${{steps.lint-result.outputs.result != '' }}
         run: |
-          echo -e "${{steps.lint-result.outputs.result}}" > ${{ github.workspace }}/artifact/commit_lint.txt
+          echo -e '${{steps.lint-result.outputs.result}}' > ${{ github.workspace }}/artifact/commit_lint.txt
       - name: Lint failure
         if: ${{ success() }}
         uses: actions/upload-artifact@v2
