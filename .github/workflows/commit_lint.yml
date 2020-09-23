@@ -26,8 +26,11 @@ jobs:
         run: |
           RESULTS=$(node ./scripts/actions.commit.js "$GIT_COMMITS")
           echo ::set-env name=LINT_RESULTS::$RESULTS
-      - uses: actions/github-script@v3
+      - name: Comment on PR
+        if: ${{ failure() }}
+        uses: actions/github-script@v3
         with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
             await github.issues.createComment({
               issue_number: context.issue.number,

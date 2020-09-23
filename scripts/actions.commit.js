@@ -95,8 +95,8 @@ if (commits) {
   const commitLintResults = filteredMessages(messagesList(messages(commits)));
 
   if (commitLintResults.length) {
-    // throw new Error(JSON.stringify(commitLintResults, null, 2));
-    console.log(JSON.stringify(commitLintResults, null, 2));
+    throw new Error(JSON.stringify(commitLintResults, null, 2));
+    // console.log(JSON.stringify(commitLintResults, null, 2));
   } else {
     console.log('Commit lint success');
   }
