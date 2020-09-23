@@ -10,19 +10,23 @@ jobs:
         node-version: [12.x]
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - name: Git commits
         run: |
           git remote add ssh-origin "https://github.com/$GITHUB_REPOSITORY"
           git fetch ssh-origin
           COMMITS=$(git cherry -v ssh-origin/master | grep "+")
           echo ::set-env name=GIT_COMMITS::$COMMITS
+          echo "just commits ="
+          echo $COMMITS
+          echo "git commits ="
+          echo $GIT_COMMITS
       - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
       - name: Lint and confirm
         run: |
-          echo $COMMITS
-          echo $GIT_COMMITS
           RESULTS=$(node ./scripts/commits.js "$GIT_COMMITS")
           echo $RESULTS
