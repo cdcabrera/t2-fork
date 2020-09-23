@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
 const commits = process.argv[1];
-console.info('checking args', process.argv);
+console.log('checking args', process.argv);
 
 if (!commits) {
-  console.info('No commits');
+  console.log('No commits');
 }
 
 const messages = commits
@@ -78,5 +78,5 @@ const filteredMessages = messagesList.filter(
 if (filteredMessages.length) {
   throw new Error(filteredMessages);
 } else {
-  console.info('Commit lint success');
+  console.log('Commit lint success');
 }
