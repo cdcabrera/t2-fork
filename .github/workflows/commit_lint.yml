@@ -28,5 +28,9 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Lint and confirm
         run: |
-          RESULTS=$(node ./scripts/commits.js "$COMMITS")
+          echo "just commits ="
+          echo $COMMITS
+          echo "git commits ="
+          echo $GIT_COMMITS
+          RESULTS=$(node ./scripts/commits.js "$GIT_COMMITS")
           echo $RESULTS

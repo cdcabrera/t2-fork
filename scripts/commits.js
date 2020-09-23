@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const commits = process.argv[1];
+console.info('checking args', process.argv);
 
 if (!commits) {
   console.info('No commits');
