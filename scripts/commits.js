@@ -1,4 +1,4 @@
-const commits = process.argv[1];
+const commits = process.env.GIT_COMMITS || '';
 console.log('checking args', process.argv);
 
 if (!commits) {
