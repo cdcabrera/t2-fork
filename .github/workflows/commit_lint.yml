@@ -25,16 +25,10 @@ jobs:
       - name: Lint commits
         run: |
           RESULTS=$(node ./scripts/actions.commit.js "$GIT_COMMITS")
-          echo ::set-env name=LINT_RESULTS::$RESULTS
-      - name: Confirm
+          echo $RESULTS > ${{ github.workspace }}/artifact/commit_lint.txt
+      - name: Lint failure
         if: ${{ failure() }}
-        uses: actions/github-script@v2
+        uses: actions/upload-artifact@v2
         with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
-          script: |
-            await github.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: `<!--commitlint-->\n### Commit lint\n${process.env.LINT_RESULTS}`
-            })
+          name: lint-failure ${{ matrix.node-version }}
+          path: ${{ github.workspace }}/artifact/**/*
