@@ -34,7 +34,7 @@ jobs:
           script: |
             await github.issues.createComment({
               issue_number: context.issue.number,
-              owner: context.repo.owner,
+              owner: context.actor,
               repo: context.repo.repo,
               body: `<!--commitlint-->\n### Commit lint\n${process.env.LINT_RESULTS}`
             })
