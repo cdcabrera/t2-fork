@@ -20,4 +20,4 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Lint and confirm
-        run: node ./scripts/actions.commits.js "$COMMITS"
+        run: node /scripts/actions.commits.js "$COMMITS"
