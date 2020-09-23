@@ -15,12 +15,14 @@ jobs:
           git remote add ssh-origin "https://github.com/$GITHUB_REPOSITORY"
           git fetch ssh-origin
           COMMITS=$(git cherry -v ssh-origin/master | grep "+")
-          echo $COMMITS
+          echo ::set-env name=GIT_COMMITS::$COMMITS
       - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
       - name: Lint and confirm
         run: |
-          RESULTS=$(node ./scripts/commits.js "$COMMITS")
+          echo $COMMITS
+          echo $GIT_COMMITS
+          RESULTS=$(node ./scripts/commits.js "$GIT_COMMITS")
           echo $RESULTS
