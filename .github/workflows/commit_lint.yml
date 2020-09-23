@@ -1,0 +1,20 @@
+name: Commit lint
+on:
+  pull_request
+
+jobs:
+  Lint:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Git commits
+        run: COMMITS=$(git cherry -v master | grep "+")
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Lint and confirm
+        run: node ./scripts/actions.commits.js "$COMMITS"
