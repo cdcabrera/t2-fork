@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const commits = process.argv[1] || '';
 
 const messages = commits
