@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Git commits
-        run: COMMITS=$(git cherry -v master | grep "+")
+        run: COMMITS=$(git cherry -v origin/master | grep "+")
       - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
