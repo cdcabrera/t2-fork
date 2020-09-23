@@ -2,6 +2,10 @@
 
 const commits = process.argv[1];
 
+if (!commits) {
+  console.info('No commits');
+}
+
 const messages = commits
   .toString()
   .trim()
