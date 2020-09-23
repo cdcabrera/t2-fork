@@ -25,4 +25,13 @@ jobs:
       - name: Lint and confirm
         run: |
           RESULTS=$(node ./scripts/actions.commit.js "$GIT_COMMITS")
-          echo $RESULTS
+          echo ::set-env name=LINT_RESULTS::$RESULTS
+      - uses: actions/github-script@v3
+        with:
+          script: |
+            await github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `<!--commitlint-->\n### Commit lint\n${process.env.LINT_RESULTS}`
+            })
