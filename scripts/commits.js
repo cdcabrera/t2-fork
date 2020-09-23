@@ -5,7 +5,7 @@ let messages;
 if (/\n/.test(commits)) {
   messages = commits.trim().replace(/\+\s/g, '').split(/\n/g);
 } else {
-  messages = commits.trim().replace(/\+\s/g, '\n').split(/\n/g);
+  messages = commits.trim().replace(/\+\s/g, '\n').replace(/\n/, '').split(/\n/g);
 }
 
 console.log('messages', messages);
@@ -74,7 +74,7 @@ const filteredMessages = messagesList.filter(
 );
 
 if (filteredMessages.length) {
-  throw new Error(filteredMessages);
+  throw new Error(JSON.stringify(filteredMessages, null, 2));
 } else {
   console.log('Commit lint success');
 }
