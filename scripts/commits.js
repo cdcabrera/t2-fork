@@ -71,7 +71,7 @@ const filteredMessages = messagesList.filter(
 );
 
 if (filteredMessages.length) {
-  console.error(filteredMessages);
+  throw new Error(filteredMessages);
 } else {
   console.info('Commit lint success');
 }
