@@ -1,42 +1,41 @@
-// const commits = process.env.GIT_COMMITS || '';
 const commits = process.argv[2] || '';
-console.log('checking args', process.argv);
 
-if (!commits) {
-  console.log('No commits');
+let messages;
+
+if (/\n/.test(commits)) {
+  messages = commits.trim().replace(/\+\s/g, '').split(/\n/g);
+} else {
+  messages = commits.trim().replace(/\+\s/g, '\n').split(/\n/g);
 }
 
-const messages = commits
-  .toString()
-  .trim()
-  .replace(/\+\s/g, '')
-  .split(/\n/g)
-  .map(message => {
-    const [hashTypeScope, ...issueNumberDescription] =
-      (/:/.test(message) && message.split(/:/)) || message.split(/\s/);
+console.log('messages', messages);
 
-    const [hash, typeScope = ''] = hashTypeScope.split(/\s/);
-    const [issueNumber, ...description] = issueNumberDescription.join(' ').trim().split(/\s/g);
+const updatedMessages = messages.map(message => {
+  const [hashTypeScope, ...issueNumberDescription] =
+    (/:/.test(message) && message.split(/:/)) || message.split(/\s/);
 
-    const updatedTypeScope = (typeScope && `${typeScope}:`) || '';
-    const updatedDescription = description.join(' ');
-    const [
-      updatedMessage,
-      remainingMessage = ''
-    ] = `${updatedTypeScope} ${issueNumber} ${updatedDescription}`.split(/\(#\d{1,5}\)/);
+  const [hash, typeScope = ''] = hashTypeScope.split(/\s/);
+  const [issueNumber, ...description] = issueNumberDescription.join(' ').trim().split(/\s/g);
 
-    return {
-      trimmedMessage:
-        (remainingMessage.trim().length === 0 && updatedMessage.trim()) ||
-        `${updatedTypeScope} ${issueNumber} ${updatedDescription}`,
-      hash,
-      typeScope: updatedTypeScope,
-      issueNumber,
-      description: updatedDescription
-    };
-  });
+  const updatedTypeScope = (typeScope && `${typeScope}:`) || '';
+  const updatedDescription = description.join(' ');
+  const [
+    updatedMessage,
+    remainingMessage = ''
+  ] = `${updatedTypeScope} ${issueNumber} ${updatedDescription}`.split(/\(#\d{1,5}\)/);
 
-const messagesList = messages.map(message => {
+  return {
+    trimmedMessage:
+      (remainingMessage.trim().length === 0 && updatedMessage.trim()) ||
+      `${updatedTypeScope} ${issueNumber} ${updatedDescription}`,
+    hash,
+    typeScope: updatedTypeScope,
+    issueNumber,
+    description: updatedDescription
+  };
+});
+
+const messagesList = updatedMessages.map(message => {
   const {
     trimmedMessage = null,
     typeScope = null,
