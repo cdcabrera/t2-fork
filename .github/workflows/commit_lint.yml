@@ -22,12 +22,26 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Lint commits
+      - name: Lint
+        uses: actions/github-script@v2
+        id: lint-result
+        with:
+          result-encoding: string
+          script: |
+            const actionCommit = require(`${process.env.GITHUB_WORKSPACE}/scripts/actions.commit.js`)
+            const results = actionCommit(process.env.GIT_COMMITS)
+
+            if (results.length) {
+              return JSON.stringify(results, null, 2);
+            }
+
+            return ''
+      - name: Set artifact
+        if: ${{steps.lint-result.outputs.result != '' }}
         run: |
-          RESULTS=$(node ./scripts/actions.commit.js "$GIT_COMMITS")
-          echo $RESULTS > ${{ github.workspace }}/artifact/commit_lint.txt
+          echo "${{steps.lint-result.outputs.result}}" > ${{ github.workspace }}/artifact/commit_lint.txt
       - name: Lint failure
-        if: ${{ failure() }}
+        if: ${{ success() }}
         uses: actions/upload-artifact@v2
         with:
           name: lint-failure ${{ matrix.node-version }}
