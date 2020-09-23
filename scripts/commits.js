@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 const commits = process.argv[1];
 console.log('checking args', process.argv);
 
