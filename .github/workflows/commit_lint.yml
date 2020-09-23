@@ -20,4 +20,4 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Lint and confirm
-        run: ./scripts/actions.commits.js "$COMMITS"
+        run: sh "$GITHUB_WORKSPACE/scripts/actions.commits.js" "$COMMITS"
