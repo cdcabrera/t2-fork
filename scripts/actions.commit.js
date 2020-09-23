@@ -90,12 +90,16 @@ const filteredMessages = messagesList =>
  * If commits exist, lint them.
  *
  * @param {string} commits
- * @returns {Array}
+ * @returns {object}
  */
 module.exports = commits => {
+  const lintResults = { resultsArray: [], resultsString: '' };
+
   if (commits) {
-    return filteredMessages(messagesList(messages(commits)));
+    const results = filteredMessages(messagesList(messages(commits)));
+    lintResults.resultsArray = results;
+    lintResults.resultsString = JSON.stringify(results, null, 2);
   }
 
-  return [];
+  return lintResults;
 };

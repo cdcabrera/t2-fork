@@ -29,14 +29,15 @@ jobs:
           result-encoding: string
           script: |
             const actionCommit = require(`${process.env.GITHUB_WORKSPACE}/scripts/actions.commit.js`)
-            const results = actionCommit(process.env.GIT_COMMITS)
+            const { resultsArray, resultsString } = actionCommit(process.env.GIT_COMMITS)
 
-            if (results.length) {
-              return JSON.stringify(results, null, 2);
+            if (resultsArray.length) {
+              core.error(resultsString)
+              return resultsString;
             }
 
             return ''
-      - name: Set artifact
+      - name: Set lint artifact
         if: ${{steps.lint-result.outputs.result != '' }}
         run: |
           mkdir -p ${{ github.workspace }}/artifact
