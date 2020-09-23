@@ -21,4 +21,5 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Lint and confirm
         run: |
-          node "$GITHUB_WORKSPACE/scripts/actions.commits.js" "$COMMITS"
+          RESULTS=$(node ./scripts/commits.js "$COMMITS")
+          echo $RESULTS
