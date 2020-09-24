@@ -20,19 +20,40 @@ jobs:
       - name: Install Node.js packages
         run: yarn install
       - name: Lint and test
-        run: yarn test
+        run: |
+          $TESTS=$(yarn test)
+          echo ::set-env name=TEST_RESULTS::$TESTS
+      - name: Set lint and test artifact
+        run: |
+          mkdir -p ${{ github.workspace }}/artifact
+          echo -e $TEST_RESULTS > ${{ github.workspace }}/artifact/lint_test.txt
       - name: Code coverage
         if: ${{ success() }}
         uses: codecov/codecov-action@v1
-      - name: Setup beta integration
-        if: ${{ success() }}
-        run: echo ::set-env name=BUILD_STAGE::Beta
       - name: Confirm beta integration
         if: ${{ success() }}
-        run: yarn build
-      - name: Setup stable integration
-        if: ${{ success() }}
-        run: echo ::set-env name=BUILD_STAGE::Stable
+        run: |
+          $BETA_BUILD=$(yarn build)
+          echo ::set-env name=BETA_BUILD_RESULTS::$BETA_BUILD
+        env:
+          BUILD_STAGE: Beta
+      - name: Set beta integration artifact
+        run: |
+          mkdir -p ${{ github.workspace }}/artifact
+          echo -e $BETA_BUILD_RESULTS > ${{ github.workspace }}/artifact/beta_build.txt
       - name: Confirm stable integration
         if: ${{ success() }}
-        run: yarn build
+        run: |
+          $STABLE_BUILD=$(yarn build)
+          echo ::set-env name=STABLE_BUILD_RESULTS::$STABLE_BUILD
+        env:
+          BUILD_STAGE: Stable
+      - name: Set stable integration artifact
+        run: |
+          mkdir -p ${{ github.workspace }}/artifact
+          echo -e $STABLE_BUILD_RESULTS > ${{ github.workspace }}/artifact/stable_build.txt
+      - name: Set artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: commit-lint-failure ${{ matrix.node-version }}
+          path: ${{ github.workspace }}/artifact/**/*
