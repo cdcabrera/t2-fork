@@ -22,8 +22,7 @@ jobs:
           rm -rf ${{ github.workspace }}/artifact
       - name: Lint and test
         run: |
-          mkdir -p ${{ github.workspace }}/artifact
-          yarn test | tee ${{ github.workspace }}/artifact/lint_test.txt
+          yarn test
       - name: Code coverage
         if: ${{ success() }}
         uses: codecov/codecov-action@v1
