@@ -2,8 +2,6 @@ name: Pull request
 on:
   pull_request:
     branches: [ master, prod, stage, qa**, ci** ]
-env:
-  BRANCH: ${{ github.base_ref }}
 
 jobs:
   Integration-checks:
@@ -13,8 +11,6 @@ jobs:
         node-version: [10.x, 12.x]
     steps:
       - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
       - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
@@ -43,6 +39,7 @@ jobs:
         env:
           BUILD_STAGE: Stable
       - name: Set artifacts
+        if: ${{ always() }}
         uses: actions/upload-artifact@v2
         with:
           name: pull-request ${{ matrix.node-version }}
