@@ -21,7 +21,7 @@ jobs:
         run: yarn install
       - name: Lint and test
         run: |
-          $TESTS=$(yarn test)
+          TESTS=$(yarn test)
           echo ::set-env name=TEST_RESULTS::$TESTS
       - name: Set lint and test artifact
         run: |
@@ -33,7 +33,7 @@ jobs:
       - name: Confirm beta integration
         if: ${{ success() }}
         run: |
-          $BETA_BUILD=$(yarn build)
+          BETA_BUILD=$(yarn build)
           echo ::set-env name=BETA_BUILD_RESULTS::$BETA_BUILD
         env:
           BUILD_STAGE: Beta
@@ -44,7 +44,7 @@ jobs:
       - name: Confirm stable integration
         if: ${{ success() }}
         run: |
-          $STABLE_BUILD=$(yarn build)
+          STABLE_BUILD=$(yarn build)
           echo ::set-env name=STABLE_BUILD_RESULTS::$STABLE_BUILD
         env:
           BUILD_STAGE: Stable
