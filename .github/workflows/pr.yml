@@ -17,6 +17,9 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install Node.js packages
         run: yarn install
+      - name: Clean artifacts
+        run: |
+          rm -rf ${{ github.workspace }}/artifact
       - name: Lint and test
         run: |
           mkdir -p ${{ github.workspace }}/artifact
