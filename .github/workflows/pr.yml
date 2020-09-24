@@ -21,12 +21,8 @@ jobs:
         run: yarn install
       - name: Lint and test
         run: |
-          TESTS=$(yarn test)
-          echo ::set-env name=TEST_RESULTS::$TESTS
-      - name: Set lint and test artifact
-        run: |
           mkdir -p ${{ github.workspace }}/artifact
-          echo -e "$TEST_RESULTS" >> ${{ github.workspace }}/artifact/lint_test.txt
+          yarn test > ${{ github.workspace }}/artifact/lint_test.txt
       - name: Code coverage
         if: ${{ success() }}
         uses: codecov/codecov-action@v1
@@ -40,7 +36,7 @@ jobs:
       - name: Set beta integration artifact
         run: |
           mkdir -p ${{ github.workspace }}/artifact
-          echo -e "$BETA_BUILD_RESULTS" >> ${{ github.workspace }}/artifact/beta_build.txt
+          echo -e "$BETA_BUILD_RESULTS" > ${{ github.workspace }}/artifact/beta_build.txt
       - name: Confirm stable integration
         if: ${{ success() }}
         run: |
@@ -51,7 +47,7 @@ jobs:
       - name: Set stable integration artifact
         run: |
           mkdir -p ${{ github.workspace }}/artifact
-          echo -e "$STABLE_BUILD_RESULTS" >> ${{ github.workspace }}/artifact/stable_build.txt
+          echo -e "$STABLE_BUILD_RESULTS" > ${{ github.workspace }}/artifact/stable_build.txt
       - name: Set artifacts
         uses: actions/upload-artifact@v2
         with:
