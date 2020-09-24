@@ -20,10 +20,12 @@ jobs:
       - name: Clean artifacts
         run: |
           rm -rf ${{ github.workspace }}/artifact
-      - name: Lint and test
+      - name: Lint and test artifact
         run: |
           mkdir -p ${{ github.workspace }}/artifact
           yarn test |& tee ${{ github.workspace }}/artifact/lint_test.txt
+      - name: Lint and test
+        run: yarn test
       - name: Code coverage
         if: ${{ success() }}
         uses: codecov/codecov-action@v1
