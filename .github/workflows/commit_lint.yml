@@ -32,13 +32,13 @@ jobs:
             const { resultsArray, resultsString } = actionCommit(process.env.GIT_COMMITS)
 
             if (resultsArray.length) {
-              core.error(resultsString)
+              core.setFailed(resultsString)
               return resultsString;
             }
 
             return ''
       - name: Set lint artifact
-        if: ${{steps.lint-result.outputs.result != '' }}
+        if: ${{ failure() }}
         run: |
           mkdir -p ${{ github.workspace }}/artifact
           echo -e '${{steps.lint-result.outputs.result}}' > ${{ github.workspace }}/artifact/commit_lint.txt
