@@ -26,12 +26,6 @@ jobs:
           if [ ! -z $("$LINT_TEST" | grep "exit code 1")  ]; then
             echo ::set-env name=LINT_TEST_ERROR::$LINT_TEST
           fi
-      - name: Set lint and test 1a
-        if: ${{ failure() && env.LINT_TEST_ERROR != '' }}
-        uses: actions/github-script@v2
-        with:
-          script: |
-            core.setFailed(process.env.LINT_TEST_ERROR)
       - name: Set lint and test 1b
         if: ${{ failure() }}
         uses: actions/github-script@v2
@@ -40,24 +34,6 @@ jobs:
             if (process.env.LINT_TEST_ERROR) {
               core.setFailed(process.env.LINT_TEST_ERROR)
             }
-      - name: Lint and test 2
-        if: ${{ always() }}
-        uses: actions/github-script@v2
-        with:
-          result-encoding: string
-          script: |
-            const { execSync } = require('child_process')
-
-            try {
-              console.log(execSync('yarn test'))
-            } catch (error) {
-              core.setFailed(error.message)
-            }
-      - name: Lint and test artifact
-        if: ${{ always() }}
-        run: |
-          mkdir -p ${{ github.workspace }}/artifact
-          yarn test |& tee ${{ github.workspace }}/artifact/lint_test.txt
       - name: Code coverage
         if: ${{ success() }}
         uses: codecov/codecov-action@v1
