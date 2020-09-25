@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [10.x, 12.x]
+        node-version: [12.x]
     steps:
       - uses: actions/checkout@v2
       - name: Setup Node.js ${{ matrix.node-version }}
@@ -17,9 +17,6 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install Node.js packages
         run: yarn install
-      - name: Clean artifacts
-        run: |
-          rm -rf ${{ github.workspace }}/artifact
       - name: Set lint and test results script
         uses: actions/github-script@v2
         with:
@@ -28,48 +25,34 @@ jobs:
             try {
               console.log(`${execSync('yarn test')}`);
             } catch (error) {
-              const output = `${error.stdout}\n${error.stderr}`;
-              core.setFailed(output);
+              core.setFailed(`${error.stdout}\n${error.stderr}`);
             }
-      - name: Lint and test 1
-        run: |
-          LINT_TEST=$(yarn test 2>&1);
-          echo ::set-env name=LINT_TEST_RESULTS::$LINT_TEST
-      - name: Set lint and test results
-        if: ${{ failure() }}
-        uses: actions/github-script@v2
-        with:
-          script: |
-            console.log('CHECK >>>', process.env.LINT_TEST_RESULTS)
-            core.setFailed(process.env.LINT_TEST_RESULTS)
       - name: Code coverage
         if: ${{ success() }}
         uses: codecov/codecov-action@v1
       - name: Confirm beta integration
         if: ${{ success() }}
-        run: |
-          mkdir -p ${{ github.workspace }}/artifact
-          BETA_BUILD=$(yarn build 2>&1)
-          echo ::set-env name=BETA_BUILD_RESULTS::$BETA_BUILD
-          echo "$BETA_BUILD" > ${{ github.workspace }}/artifact/beta_build.txt
-        env:
-          BUILD_STAGE: Beta
-      - name: Set beta integration results
-        if: ${{ failure() }}
         uses: actions/github-script@v2
         with:
           script: |
-            core.setFailed(process.env.BETA_BUILD_RESULTS)
+            const { execSync } = require('child_process');
+            try {
+              console.log(`${execSync('yarn build')}`);
+            } catch (error) {
+              core.setFailed(`${error.stdout}\n${error.stderr}`);
+            }
+        env:
+          BUILD_STAGE: Beta
       - name: Confirm stable integration
         if: ${{ success() }}
-        run: |
-          mkdir -p ${{ github.workspace }}/artifact
-          yarn build > ${{ github.workspace }}/artifact/stable_build.txt
-        env:
-          BUILD_STAGE: Stable
-      - name: Set artifacts
-        if: ${{ always() }}
-        uses: actions/upload-artifact@v2
+        uses: actions/github-script@v2
         with:
-          name: pull-request ${{ matrix.node-version }}
-          path: ${{ github.workspace }}/artifact/**/*
+          script: |
+            const { execSync } = require('child_process');
+            try {
+              console.log(`${execSync('yarn build')}`);
+            } catch (error) {
+              core.setFailed(`${error.stdout}\n${error.stderr}`);
+            }
+          env:
+          BUILD_STAGE: Stable
