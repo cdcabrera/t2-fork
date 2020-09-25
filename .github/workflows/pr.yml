@@ -29,7 +29,6 @@ jobs:
               console.log(`${execSync('yarn test')}`);
             } catch (error) {
               const output = `${error.stdout}\n${error.stderr}`;
-              console.log(output);
               core.setFailed(output);
             }
       - name: Lint and test 1
