@@ -20,6 +20,18 @@ jobs:
       - name: Clean artifacts
         run: |
           rm -rf ${{ github.workspace }}/artifact
+      - name: Set lint and test results script
+        uses: actions/github-script@v2
+        with:
+          script: |
+            const { execSync } = require('child_process');
+            try {
+              console.log(`${execSync('yarn test')}`);
+            } catch (error) {
+              const output = `${error.stdout}\n${error.stderr}`;
+              console.log(output);
+              core.setFailed(output);
+            }
       - name: Lint and test 1
         run: |
           LINT_TEST=$(yarn test 2>&1);
