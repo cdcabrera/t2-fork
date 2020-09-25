@@ -54,5 +54,5 @@ jobs:
             } catch (error) {
               core.setFailed(`${error.stdout}\n${error.stderr}`);
             }
-          env:
+        env:
           BUILD_STAGE: Stable

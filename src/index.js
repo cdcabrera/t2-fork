@@ -5,4 +5,6 @@ const opts = {
   two: '2'
 };
 
+console.log('testing');
+
 module.exports = { t2, opts };
