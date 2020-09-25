@@ -31,6 +31,8 @@ jobs:
         uses: actions/github-script@v2
         with:
           script: |
+            console.log('CHECK >>>', process.env.LINT_TEST_ERROR)
+
             if (process.env.LINT_TEST_ERROR) {
               core.setFailed(process.env.LINT_TEST_ERROR)
             }
