@@ -24,9 +24,11 @@ jobs:
         id: yarn-cache
         with:
           path: ${{ steps.yarn-cache-dir.outputs.CACHE_DIR }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-${{ matrix.node-version }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-yarn-
+            ${{ runner.os }}-${{ matrix.node-version }}-yarn
+            ${{ runner.os }}-${{ matrix.node-version }}-
+            ${{ runner.os }}-
       - name: Install Node.js packages
         if: ${{ steps.yarn-cache.outputs.cache-hit != 'true' }}
         run: yarn install
