@@ -23,21 +23,14 @@ jobs:
       - name: Lint and test 1
         run: |
           LINT_TEST=$(yarn test 2>&1);
-          echo "$LINT_TEST"
-
-          if [ ! -z "$($LINT_TEST | grep "exit code 1")" ]; then
-            echo ::set-env name=LINT_TEST_ERROR::$LINT_TEST
-          fi
-      - name: Set lint and test 1b
+          echo ::set-env name=LINT_TEST_RESULTS::$LINT_TEST
+      - name: Set lint and test results
         if: ${{ failure() }}
         uses: actions/github-script@v2
         with:
           script: |
-            console.log('CHECK >>>', process.env.LINT_TEST_ERROR)
-
-            if (process.env.LINT_TEST_ERROR) {
-              core.setFailed(process.env.LINT_TEST_ERROR)
-            }
+            console.log('CHECK >>>', process.env.LINT_TEST_RESULTS)
+            core.setFailed(process.env.LINT_TEST_RESULTS)
       - name: Code coverage
         if: ${{ success() }}
         uses: codecov/codecov-action@v1
@@ -45,9 +38,17 @@ jobs:
         if: ${{ success() }}
         run: |
           mkdir -p ${{ github.workspace }}/artifact
-          yarn build > ${{ github.workspace }}/artifact/beta_build.txt
+          BETA_BUILD=$(yarn build 2>&1)
+          echo ::set-env name=BETA_BUILD_RESULTS::$BETA_BUILD
+          echo "$BETA_BUILD" > ${{ github.workspace }}/artifact/beta_build.txt
         env:
           BUILD_STAGE: Beta
+      - name: Set beta integration results
+        if: ${{ failure() }}
+        uses: actions/github-script@v2
+        with:
+          script: |
+            core.setFailed(process.env.BETA_BUILD_RESULTS)
       - name: Confirm stable integration
         if: ${{ success() }}
         run: |
