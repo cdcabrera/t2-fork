@@ -23,7 +23,9 @@ jobs:
       - name: Lint and test 1
         run: |
           LINT_TEST=$(yarn test 2>&1);
-          if [ ! -z $("$LINT_TEST" | grep "exit code 1")  ]; then
+          echo "$LINT_TEST"
+
+          if [ ! -z "$($LINT_TEST | grep "exit code 1")" ]; then
             echo ::set-env name=LINT_TEST_ERROR::$LINT_TEST
           fi
       - name: Set lint and test 1b
