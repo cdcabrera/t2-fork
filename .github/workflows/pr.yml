@@ -27,7 +27,7 @@ jobs:
             echo ::set-env name=LINT_TEST_ERROR::$LINT_TEST
           fi
       - name: Set lint and test 1a
-        if: ${{ failure() && process.env.LINT_TEST_ERROR != '' }}
+        if: ${{ failure() && env.LINT_TEST_ERROR != '' }}
         uses: actions/github-script@v2
         with:
           script: |
