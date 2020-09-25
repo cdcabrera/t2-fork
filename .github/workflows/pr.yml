@@ -30,14 +30,14 @@ jobs:
             ${{ runner.os }}-yarn
       - name: Node.js modules cache
         uses: actions/cache@v2
-        id: yarn-cache
+        id: modules-cache
         with:
           path: ${{ github.workspace }}/node_modules
           key: ${{ runner.os }}-${{ matrix.node-version }}-modules-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-${{ matrix.node-version }}-modules
       - name: Install Node.js packages
-        if: ${{ steps.yarn-cache.outputs.cache-hit != 'true' }}
+        if: ${{ steps.modules-cache.outputs.cache-hit != 'true' }}
         run: yarn install
       - name: Set lint and test results script
         uses: actions/github-script@v2
