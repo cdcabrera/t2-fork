@@ -2,6 +2,8 @@ name: Pull request
 on:
   pull_request:
     branches: [ master, prod, stage, qa**, ci** ]
+env:
+  BRANCH: ${{ github.base_ref }}
 
 jobs:
   Integration-checks:
@@ -24,8 +26,8 @@ jobs:
             const { execSync } = require('child_process');
             try {
               console.log(`${execSync('yarn test', { stdio: 'pipe' })}`);
-            } catch (error) {
-              core.setFailed(`${error.stdout}\n${error.stderr}`);
+            } catch ({ stdout, stderr }) {
+              core.setFailed(`${stdout}\n${stderr}`);
             }
       - name: Code coverage
         if: ${{ success() }}
@@ -38,8 +40,8 @@ jobs:
             const { execSync } = require('child_process');
             try {
               console.log(`${execSync('yarn build', { stdio: 'pipe' })}`);
-            } catch (error) {
-              core.setFailed(`${error.stdout}\n${error.stderr}`);
+            } catch ({ stdout, stderr }) {
+              core.setFailed(`${stdout}\n${stderr}`);
             }
         env:
           BUILD_STAGE: Beta
@@ -51,8 +53,8 @@ jobs:
             const { execSync } = require('child_process');
             try {
               console.log(`${execSync('yarn build', { stdio: 'pipe' })}`);
-            } catch (error) {
-              core.setFailed(`${error.stdout}\n${error.stderr}`);
+            } catch ({ stdout, stderr }) {
+              core.setFailed(`${stdout}\n${stderr}`);
             }
         env:
           BUILD_STAGE: Stable
