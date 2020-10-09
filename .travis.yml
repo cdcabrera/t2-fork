@@ -11,6 +11,12 @@ jobs:
       after_success: codecov
     - stage: Deploy
       script: yarn build
+    - stage: Testing env variables
+      script: |
+        if [[ "${TRAVIS_COMMIT_MESSAGE}" = *"chore(release):"* ]]; then
+          echo "Specific commit message check for --->";
+          echo "${TRAVIS_COMMIT_MESSAGE}"
+        fi
 env:
   global:
     - REPO="git@github.com:cdcabrera/t2"
