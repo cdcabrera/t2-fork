@@ -26,7 +26,7 @@ jobs:
           echo "DIFF ---------->"
           git diff ssh-origin/${{ env.BRANCH }}
           echo "DONE ---------->"
-          DIFFS=$(git diff ssh-origin/${{ env.BRANCH }})
+          DIFFS=$(git diff ssh-origin/${{ env.BRANCH }} | grep "^-\s\|^+\s")
           mkdir -p ${{ github.workspace }}/artifact
           echo "$DIFFS" > ${{ github.workspace }}/artifact/git_diff.txt
           echo "HELLO WORLD ----->"
