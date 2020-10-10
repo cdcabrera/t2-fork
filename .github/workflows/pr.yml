@@ -26,6 +26,9 @@ jobs:
           echo "DIFF ---------->"
           git diff ssh-origin/${{ env.BRANCH }}
           echo "DONE ---------->"
+          DIFFS=$(git diff ssh-origin/${{ env.BRANCH }})
+          mkdir -p ${{ github.workspace }}/artifact
+          echo "$DIFFS" > ${{ github.workspace }}/artifact/git_diff.txt
       - name: Git diff cache
         uses: actions/cache@v2
         id: git-diff-cache
