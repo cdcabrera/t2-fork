@@ -18,8 +18,12 @@ jobs:
           fetch-depth: 0
       - name: Git diff
         run: |
-          DIFFS=$(git diff ${{ github.event.before }} ${{ github.sha }} | grep "^-\s\|^+\s")
+          git remote add ssh-origin "https://github.com/$GITHUB_REPOSITORY"
+          git fetch ssh-origin
+          DIFFS=$(git diff ssh-origin/${{ env.BRANCH }} ${{ github.sha }} | grep "^-\s\|^+\s")
+          echo "Testing diffs..."
           echo "$DIFFS"
+          echo "END testing diffs..."
           mkdir -p ${{ github.workspace }}/artifact
           echo "$DIFFS" > ${{ github.workspace }}/artifact/git_diff.txt
       - name: Git diff cache
