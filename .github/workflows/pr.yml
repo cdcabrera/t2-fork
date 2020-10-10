@@ -21,9 +21,10 @@ jobs:
           git switch -c temp
           git remote add ssh-origin "https://github.com/$GITHUB_REPOSITORY"
           git fetch ssh-origin
-          git log temp
-          echo "NEXT ---------->"
-          git log ssh-origin/${{ env.BRANCH }}
+          echo "CHERRY ---------->"
+          git cherry -v ssh-origin/${{ env.BRANCH }}
+          echo "DIFF ---------->"
+          git diff ssh-origin/${{ env.BRANCH }}
           echo "DONE ---------->"
       - name: Git diff cache
         uses: actions/cache@v2
