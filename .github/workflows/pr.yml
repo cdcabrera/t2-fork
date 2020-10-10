@@ -20,7 +20,7 @@ jobs:
         run: |
           git remote add ssh-origin "https://github.com/$GITHUB_REPOSITORY"
           git fetch ssh-origin
-          git checkout ${{ env.SRC_BRANCH }}
+          git checkout --track origin/${{ env.SRC_BRANCH }}
           DIFFS=$(git diff ssh-origin/${{ env.BRANCH }} | grep "^-\s\|^+\s")
           echo "$DIFFS"
           mkdir -p ${{ github.workspace }}/artifact
