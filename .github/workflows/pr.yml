@@ -20,9 +20,9 @@ jobs:
           git remote add ssh-origin "https://github.com/$GITHUB_REPOSITORY"
           git fetch ssh-origin
           git switch -c temp
-          mkdir -p ${{ github.workspace }}/artifact
           DIFFS=$(git diff ssh-origin/${{ env.BRANCH }} temp | grep "^-\s\|^+\s")
           echo "$DIFFS"
+          mkdir -p ${{ github.workspace }}/artifact
           echo "$DIFFS" > ${{ github.workspace }}/artifact/git_diff.txt
       - name: Git diff cache
         uses: actions/cache@v2
