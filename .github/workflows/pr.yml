@@ -18,10 +18,10 @@ jobs:
           fetch-depth: 0
       - name: Git diff
         run: |
-          git checkout --track origin/${{ env.SRC_BRANCH }}
+          git switch -c temp
           git remote add ssh-origin "https://github.com/$GITHUB_REPOSITORY"
           git fetch ssh-origin
-          git log origin/${{ env.SRC_BRANCH }}
+          git log temp
           echo "NEXT ---------->"
           git log ssh-origin/${{ env.BRANCH }}
           echo "DONE ---------->"
