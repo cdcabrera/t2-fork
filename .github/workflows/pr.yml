@@ -4,6 +4,7 @@ on:
     branches: [ master, prod, stage, qa**, ci** ]
 env:
   BRANCH: ${{ github.base_ref }}
+  SRC_BRANCH: ${{ github.head_ref }}
 
 jobs:
   Integration-checks:
@@ -19,7 +20,7 @@ jobs:
         run: |
           git remote add ssh-origin "https://github.com/$GITHUB_REPOSITORY"
           git fetch ssh-origin
-          git checkout ${{ env.GITHUB_HEAD_REF }}
+          git checkout ${{ env.SRC_BRANCH }}
           DIFFS=$(git diff ssh-origin/${{ env.BRANCH }} | grep "^-\s\|^+\s")
           echo "$DIFFS"
           mkdir -p ${{ github.workspace }}/artifact
